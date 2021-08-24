@@ -1,0 +1,202 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: machines.platform.pml.io
+spec:
+  group: platform.pml.io
+  names:
+    kind: Machine
+    listKind: MachineList
+    plural: machines
+    singular: machine
+  scope: Cluster
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: Machine is the Schema for the machines API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: MachineSpec defines the desired state of Machine
+          properties:
+            clusterName:
+              type: string
+            cpucore:
+              type: integer
+            finalizers:
+              description: Finalizers is an opaque list of values that must be empty
+                to permanently remove object from storage.
+              items:
+                description: FinalizerName is the name identifying a finalizer during
+                  cluster lifecycle.
+                type: string
+              type: array
+            ip:
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              type: object
+            location:
+              type: string
+            locationType:
+              type: string
+            memsize:
+              type: integer
+            passPhrase:
+              format: byte
+              type: string
+            password:
+              format: byte
+              type: string
+            payPrice:
+              type: integer
+            payType:
+              type: string
+            port:
+              format: int32
+              type: integer
+            privateKey:
+              format: byte
+              type: string
+            providerType:
+              type: string
+            resourceType:
+              type: string
+            storageSize:
+              type: integer
+            taints:
+              description: If specified, the node's taints.
+              items:
+                description: The node this Taint is attached to has the "effect" on
+                  any pod that does not tolerate the Taint.
+                properties:
+                  effect:
+                    description: Required. The effect of the taint on pods that do
+                      not tolerate the taint. Valid effects are NoSchedule, PreferNoSchedule
+                      and NoExecute.
+                    type: string
+                  key:
+                    description: Required. The taint key to be applied to a node.
+                    type: string
+                  timeAdded:
+                    description: TimeAdded represents the time at which the taint
+                      was added. It is only written for NoExecute taints.
+                    format: date-time
+                    type: string
+                  value:
+                    description: The taint value corresponding to the taint key.
+                    type: string
+                required:
+                - effect
+                - key
+                type: object
+              type: array
+            type:
+              type: string
+            username:
+              type: string
+          required:
+          - ip
+          - port
+          - type
+          - username
+          type: object
+        status:
+          description: MachineStatus defines the observed state of Machine
+          properties:
+            addresses:
+              description: List of addresses reachable to the platform.
+              items:
+                description: MachineAddress contains information for the platform's
+                  address.
+                properties:
+                  address:
+                    description: The platform address.
+                    type: string
+                  type:
+                    description: Machine address type, one of Public, ExternalIP or
+                      InternalIP.
+                    type: string
+                required:
+                - address
+                - type
+                type: object
+              type: array
+            conditions:
+              items:
+                description: MachineCondition contains details for the current condition
+                  of this Machine.
+                properties:
+                  lastProbeTime:
+                    description: Last time we probed the condition.
+                    format: date-time
+                    type: string
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    format: date-time
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                required:
+                - status
+                - type
+                type: object
+              type: array
+            locked:
+              type: boolean
+            message:
+              description: A human readable message indicating details about why the
+                platform is in this condition.
+              type: string
+            phases:
+              description: MachinePhase defines the phases of platform constructor
+              type: string
+            reason:
+              description: A brief CamelCase message indicating details about why
+                the platform is in this state.
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

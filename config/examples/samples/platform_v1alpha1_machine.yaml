@@ -1,0 +1,24 @@
+apiVersion: platform.pml.io/v1alpha1
+kind: Machine
+metadata:
+  name: machine-sample
+spec:
+  # Add fields here
+  ip: 192.168.1.131
+  password: MTExMTEx
+  port: 22
+  type: Baremetal
+  username: root
+  resourceType: computing
+  locationType: planet
+  location: jiangsu-nanjing
+  providerType: personal
+  cpucore: 2
+  memsize: 3799
+  storageSize: 1000
+  payType: static
+  payPrice: 10
+
+
+
+
