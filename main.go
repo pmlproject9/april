@@ -26,6 +26,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/klog"
+	"pml.io/april/pkg/controllers/cluster"
 	machinecontroller "pml.io/april/pkg/controllers/machine"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"time"
@@ -104,8 +105,10 @@ func startControllers(ctx context.Context, stopCh <-chan struct{}, agentCfg agen
 		targetClusterSummaryInformers[target.Name] = f.Multicluster().V1alpha1().ClusterSummaries()
 	}
 
-	controller := machinecontroller.NewController(kubeClient, cfg, targetClusterSummaryInformers,
+	machineController := machinecontroller.NewController(kubeClient, cfg, targetClusterSummaryInformers,
 		platformInformerFactory.Platform().V1alpha1().Machines())
+
+	clusterController := cluster.NewController(kubeClient, cfg, platformInformerFactory.Platform().V1alpha1().Clusters())
 
 	// notice that there is no need to run Start methods in a separate goroutine. (i.e. go kubeInformerFactory.Start(stopCh)
 	// Start method is non-blocking and runs all registered informers in a dedicated goroutine.
@@ -116,8 +119,7 @@ func startControllers(ctx context.Context, stopCh <-chan struct{}, agentCfg agen
 		f.Start(stopCh)
 	}
 
-	if err = controller.Run(2, stopCh); err != nil {
-		klog.Fatalf("Error running controller: %s", err.Error())
-	}
+	go func() { utilruntime.Must(machineController.Run(2, stopCh)) }()
+	go func() { utilruntime.Must(clusterController.Run(2, stopCh)) }()
 
 }

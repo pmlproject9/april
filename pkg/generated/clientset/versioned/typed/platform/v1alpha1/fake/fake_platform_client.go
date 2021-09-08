@@ -28,6 +28,10 @@ type FakePlatformV1alpha1 struct {
 	*testing.Fake
 }
 
+func (c *FakePlatformV1alpha1) Clusters() v1alpha1.ClusterInterface {
+	return &FakeClusters{c}
+}
+
 func (c *FakePlatformV1alpha1) Machines() v1alpha1.MachineInterface {
 	return &FakeMachines{c}
 }

@@ -1563,6 +1563,7 @@ k8s.io/apimachinery v0.0.0-20210708014216-0dafcb48b31e h1:EZ+ZrcPtnkR8vVo7bBSwoM
 k8s.io/apimachinery v0.0.0-20210708014216-0dafcb48b31e/go.mod h1:O3oNtNadZdeOMxHFVxOreoznohCpy0z6mocxbZr7oJ0=
 k8s.io/apimachinery v0.18.9 h1:3ZABKQx3F3xPWlsGhCfUl8W+JXRRblV6Wo2A3zn0pvY=
 k8s.io/apimachinery v0.18.9/go.mod h1:PF5taHbXgTEJLU+xMypMmYTXTWPJ5LaW8bfsisxnEXk=
+k8s.io/apiserver v0.18.9 h1:ziivCosB28MltECzhDBLLVKW01zCghl/lXke3B62y8g=
 k8s.io/apiserver v0.18.9/go.mod h1:vXQzMtUCLsGg1Bh+7Jo2mZKHpHZFCZn8eTNSepcIA1M=
 k8s.io/cli-runtime v0.18.9/go.mod h1:Pw7UPmZd/wIlGd7DWGTUWA7qn92jCeybNeiS5WYJI6A=
 k8s.io/client-go v0.0.0-20210708094636-69e00b04ba4c h1:bm2mq36WyGKROFmZlbM7pjKGB+lMtClCABatAi2olrg=

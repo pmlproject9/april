@@ -7,6 +7,7 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/klog"
 	"net/url"
+	platform "pml.io/april/pkg/apis/platform/v1alpha1"
 )
 import "context"
 
@@ -14,6 +15,7 @@ type Cluster struct {
 	K8sVersionsWithV  string
 	MasterIp          string
 	ClusterName       string
+	TargetCluster     *platform.Cluster
 	TargetConfig      *rest.Config
 	ClusterCredential *ClusterCredential
 }
@@ -88,4 +90,12 @@ func GetClusterByName(ctx context.Context, clusterName string, targetConfig *res
 		ClusterName:       clusterName,
 		ClusterCredential: credential,
 	}, nil
+}
+
+func GetCluster(cfg *rest.Config, cluster *platform.Cluster) (*Cluster, error) {
+	result := new(Cluster)
+	result.ClusterName = cluster.Name
+	result.TargetConfig = cfg
+	result.TargetCluster = cluster
+	return result, nil
 }
