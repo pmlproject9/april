@@ -191,7 +191,7 @@ type MachineStatus struct {
 // +genclient
 // +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +kubebuilder:resource:path=machine,scope=Cluster
+// +kubebuilder:resource:scope=Cluster
 // +kubebuilder:subresource:status
 // Machine is the Schema for the machines API
 type Machine struct {

@@ -26,12 +26,17 @@ import (
 
 type PlatformV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	ClustersGetter
 	MachinesGetter
 }
 
 // PlatformV1alpha1Client is used to interact with features provided by the platform.pml.io group.
 type PlatformV1alpha1Client struct {
 	restClient rest.Interface
+}
+
+func (c *PlatformV1alpha1Client) Clusters() ClusterInterface {
+	return newClusters(c)
 }
 
 func (c *PlatformV1alpha1Client) Machines() MachineInterface {

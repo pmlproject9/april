@@ -1563,6 +1563,7 @@ k8s.io/apimachinery v0.0.0-20210708014216-0dafcb48b31e h1:EZ+ZrcPtnkR8vVo7bBSwoM
 k8s.io/apimachinery v0.0.0-20210708014216-0dafcb48b31e/go.mod h1:O3oNtNadZdeOMxHFVxOreoznohCpy0z6mocxbZr7oJ0=
 k8s.io/apimachinery v0.18.9 h1:3ZABKQx3F3xPWlsGhCfUl8W+JXRRblV6Wo2A3zn0pvY=
 k8s.io/apimachinery v0.18.9/go.mod h1:PF5taHbXgTEJLU+xMypMmYTXTWPJ5LaW8bfsisxnEXk=
+k8s.io/apiserver v0.18.9 h1:ziivCosB28MltECzhDBLLVKW01zCghl/lXke3B62y8g=
 k8s.io/apiserver v0.18.9/go.mod h1:vXQzMtUCLsGg1Bh+7Jo2mZKHpHZFCZn8eTNSepcIA1M=
 k8s.io/cli-runtime v0.18.9/go.mod h1:Pw7UPmZd/wIlGd7DWGTUWA7qn92jCeybNeiS5WYJI6A=
 k8s.io/client-go v0.0.0-20210708094636-69e00b04ba4c h1:bm2mq36WyGKROFmZlbM7pjKGB+lMtClCABatAi2olrg=
@@ -1599,6 +1600,7 @@ k8s.io/klog/v2 v2.0.0/go.mod h1:PBfzABfn139FHAV07az/IF9Wp1bkk3vpT2XSJ76fSDE=
 k8s.io/klog/v2 v2.2.0/go.mod h1:Od+F08eJP+W3HUb4pSrPpgp9DGU4GzlpG/TmITuYh/Y=
 k8s.io/klog/v2 v2.9.0 h1:D7HV+n1V57XeZ0m6tdRkfknthUaM06VFbWldOFh8kzM=
 k8s.io/klog/v2 v2.9.0/go.mod h1:hy9LJ/NvuK+iVyP4Ehqva4HxZG/oXyIS3n3Jmire4Ec=
+k8s.io/kube-aggregator v0.18.9 h1:kqwbA15uygYfLfdMUlyBm/q3OHaYbnirFrg7tGUTVZk=
 k8s.io/kube-aggregator v0.18.9/go.mod h1:ik5Mf6JaP2M9XbWZR/AYgXx2Nj4EDBrHyakUx7C8cdw=
 k8s.io/kube-controller-manager v0.18.9/go.mod h1:ZNrKY2V/vDYVLAqbSjcsgUVNC24JktaaQaeeGmC17Zc=
 k8s.io/kube-openapi v0.0.0-20181114233023-0317810137be/go.mod h1:BXM9ceUBTj2QnfH2MK1odQs778ajze1RxcmP6S8RVVc=

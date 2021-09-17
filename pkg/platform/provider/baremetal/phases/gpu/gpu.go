@@ -17,10 +17,13 @@
 package gpu
 
 import (
+	"context"
 	"fmt"
+	"pml.io/april/pkg/util/apiclient"
 
 	"pml.io/april/pkg/platform/provider/baremetal/res"
 
+	clientset "k8s.io/client-go/kubernetes"
 	"pml.io/april/pkg/platform/provider/baremetal/constants"
 	"pml.io/april/pkg/util/ssh"
 )
@@ -83,13 +86,13 @@ type NvidiaDevicePluginOption struct {
 	Image string
 }
 
-//func InstallNvidiaDevicePlugin(ctx context.Context, clientset clientset.Interface, option *NvidiaDevicePluginOption) error {
-//	err := apiclient.CreateResourceWithFile(ctx, clientset, constants.ManifestsDir+"gpu/nvidia-device-plugin.yaml", option)
-//	if err != nil {
-//		return err
-//	}
-//	return nil
-//}
+func InstallNvidiaDevicePlugin(ctx context.Context, clientset clientset.Interface, option *NvidiaDevicePluginOption) error {
+	err := apiclient.CreateResourceWithFile(ctx, clientset, constants.ManifestsDir+"gpu/nvidia-device-plugin.yaml", option)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func IsEnable(labels map[string]string) bool {
 	return labels["nvidia-device-enable"] == "enable"

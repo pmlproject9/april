@@ -43,7 +43,7 @@ var kernelParemeter = []string{
 
 func newCommonChecks(_ string, s ssh.Interface) []Checker {
 	var checks []Checker
-	//if c.Cluster.Spec.Features.EnableCilium {
+	//if c.TargetCluster.Spec.Features.EnableCilium {
 	//	checks = append(checks, []Checker{
 	//		KernelParameterCheck{KernelParameter: kernelParemeter},
 	//		KernelCheck{Interface: s, MinKernelVersion: 4, MinMajorVersion: 11},

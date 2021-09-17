@@ -39,7 +39,9 @@ require (
 
 require (
 	github.com/imdario/mergo v0.3.7 // indirect
+	k8s.io/apiserver v0.18.9
 	k8s.io/code-generator v0.21.2
+	k8s.io/kube-aggregator v0.0.0
 	k8s.io/kubernetes v1.18.9
 )
 

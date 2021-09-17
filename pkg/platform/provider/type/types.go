@@ -7,15 +7,18 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/klog"
 	"net/url"
+	platform "pml.io/april/pkg/apis/platform/v1alpha1"
 )
 import "context"
 
 type Cluster struct {
-	K8sVersionsWithV  string
-	MasterIp          string
-	ClusterName       string
-	TargetConfig      *rest.Config
-	ClusterCredential *ClusterCredential
+	K8sVersionsWithV    string
+	MasterIp            string
+	ClusterName         string
+	MasterKubeclientset *kubernetes.Clientset
+	TargetCluster       *platform.Cluster
+	TargetConfig        *rest.Config
+	ClusterCredential   *ClusterCredential
 }
 
 // ClusterCredential records the credential information needed to access the cluster.
@@ -58,7 +61,7 @@ type ClusterCredential struct {
 	CertificateKey *string `json:"certificateKey,omitempty" protobuf:"bytes,14,opt,name=certificateKey"`
 }
 
-func GetClusterByName(ctx context.Context, clusterName string, targetConfig *rest.Config) (*Cluster, error) {
+func GetClusterByName(ctx context.Context, clusterName string, targetConfig *rest.Config, kubeclientset *kubernetes.Clientset) (*Cluster, error) {
 	kubeClient, err := kubernetes.NewForConfig(targetConfig)
 	if err != nil {
 		klog.Fatalf("Error building kubernetes clientset: %s", err.Error())
@@ -82,10 +85,20 @@ func GetClusterByName(ctx context.Context, clusterName string, targetConfig *res
 	}
 
 	return &Cluster{
-		K8sVersionsWithV:  versionInfo.String(),
-		MasterIp:          u.Hostname(),
-		TargetConfig:      targetConfig,
-		ClusterName:       clusterName,
-		ClusterCredential: credential,
+		K8sVersionsWithV:    versionInfo.String(),
+		MasterIp:            u.Hostname(),
+		MasterKubeclientset: kubeclientset,
+		TargetConfig:        targetConfig,
+		ClusterName:         clusterName,
+		ClusterCredential:   credential,
 	}, nil
+}
+
+func GetCluster(cfg *rest.Config, cluster *platform.Cluster, kubeclientset *kubernetes.Clientset) (*Cluster, error) {
+	result := new(Cluster)
+	result.ClusterName = cluster.Name
+	result.TargetConfig = cfg
+	result.TargetCluster = cluster
+	result.MasterKubeclientset = kubeclientset
+	return result, nil
 }
