@@ -36,7 +36,7 @@ type ClustersGetter interface {
 	Clusters() ClusterInterface
 }
 
-// ClusterInterface has methods to work with TargetCluster resources.
+// ClusterInterface has methods to work with Cluster resources.
 type ClusterInterface interface {
 	Create(ctx context.Context, cluster *v1alpha1.Cluster, opts v1.CreateOptions) (*v1alpha1.Cluster, error)
 	Update(ctx context.Context, cluster *v1alpha1.Cluster, opts v1.UpdateOptions) (*v1alpha1.Cluster, error)

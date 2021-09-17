@@ -17,6 +17,7 @@ import (
 	platforminformers "pml.io/april/pkg/generated/informers/externalversions/platform/v1alpha1"
 	platformlisters "pml.io/april/pkg/generated/listers/platform/v1alpha1"
 	clusterprovider "pml.io/april/pkg/platform/provider/cluster"
+	_ "pml.io/april/pkg/platform/provider/imported/cluster"
 	"pml.io/april/pkg/platform/provider/imported/constants"
 	typesv1 "pml.io/april/pkg/platform/provider/type"
 	"pml.io/april/pkg/util/log"
@@ -30,13 +31,13 @@ type reconciler struct {
 }
 
 // NewController returns a new Machine controller
-func NewController(kubeclientset *kubernetes.Clientset, config *rest.Config,
+func NewController(masterKubeclientset *kubernetes.Clientset, config *rest.Config,
 	clusterInformer platforminformers.ClusterInformer) *controller.Controller {
 	platformClientset, err := platformClientset.NewForConfig(config)
 	utilruntime.Must(err)
 	// 1. construct TargetCluster Reconciler
 	r := &reconciler{
-		kubeclientset:     kubeclientset,
+		kubeclientset:     masterKubeclientset,
 		platformClientset: platformClientset,
 		clusterLister:     clusterInformer.Lister(),
 	}
@@ -99,7 +100,7 @@ func (r reconciler) onCreate(ctx context.Context, targetCluster *v1alpha1.Cluste
 	if err != nil {
 		return err
 	}
-	clusterWrapper, err := typesv1.GetCluster(targetCfg, targetCluster)
+	clusterWrapper, err := typesv1.GetCluster(targetCfg, targetCluster, r.kubeclientset)
 	if err != nil {
 		return err
 	}

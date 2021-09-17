@@ -163,13 +163,13 @@ func (r reconciler) onCreate(ctx context.Context, machine *v1alpha1.Machine, tar
 	if err != nil {
 		return err
 	}
-	cluster, err := innertypesv1.GetClusterByName(ctx, machine.Spec.ClusterName, targetconfig)
+	clusterWrapper, err := innertypesv1.GetClusterByName(ctx, machine.Spec.ClusterName, targetconfig, r.kubeclientset)
 	if err != nil {
 		return err
 	}
 
 	for machine.Status.Phase == v1alpha1.MachineInitializing {
-		err = provider.OnCreate(ctx, machine, cluster)
+		err = provider.OnCreate(ctx, machine, clusterWrapper)
 		if err != nil {
 			// Update status
 			_, err = r.platformClientset.PlatformV1alpha1().Machines().UpdateStatus(ctx, machine, metav1.UpdateOptions{})

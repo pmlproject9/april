@@ -49,7 +49,7 @@ func NewProvider() (*Provider, error) {
 			p.EnsurePreflight, // wait basic setting done
 
 			//p.EnsureNvidiaDriver,
-			//p.EnsureNvidiaContainerRuntime,
+			p.EnsureNvidiaContainerRuntime,
 			p.EnsureDocker,         // 这是system service
 			p.EnsureKubelet,        // 这个也是system service
 			p.EnsureCNIPlugins,     // 解压一大堆的 二进制
@@ -64,6 +64,8 @@ func NewProvider() (*Provider, error) {
 			p.EnsureKubeconfig,
 			p.EnsureMarkNode,
 			p.EnsureNodeReady,
+			// check if we should create nvidia device plugin.
+			p.EnsureNvidiaDevicePlugin,
 			p.EnsureDisableOffloading, // will remove it when upgrade to k8s v1.18.5
 			p.EnsurePostInstallHook,
 		},

@@ -72,7 +72,7 @@ func main() {
 // TODO !!!!  So of course we need a NEW controller manager, to handle multi-cluster controllers.
 func startControllers(ctx context.Context, stopCh <-chan struct{}, agentCfg agentconfig.Config, cfg *rest.Config) {
 	//1. construct local clients: local k8s client and local platform client
-	kubeClient, err := kubernetes.NewForConfig(cfg)
+	masterKubeClient, err := kubernetes.NewForConfig(cfg)
 	if err != nil {
 		klog.Fatalf("Error building kubernetes clientset: %s", err.Error())
 	}
@@ -82,7 +82,7 @@ func startControllers(ctx context.Context, stopCh <-chan struct{}, agentCfg agen
 		klog.Fatalf("Error building example clientset: %s", err.Error())
 	}
 
-	kubeInformerFactory := kubeinformers.NewSharedInformerFactory(kubeClient, time.Minute)
+	kubeInformerFactory := kubeinformers.NewSharedInformerFactory(masterKubeClient, time.Minute)
 	// 我们是不是选择一个更高的重复处理时间。
 	platformInformerFactory := informers.NewSharedInformerFactory(platformClient, time.Hour)
 
@@ -105,10 +105,10 @@ func startControllers(ctx context.Context, stopCh <-chan struct{}, agentCfg agen
 		targetClusterSummaryInformers[target.Name] = f.Multicluster().V1alpha1().ClusterSummaries()
 	}
 
-	machineController := machinecontroller.NewController(kubeClient, cfg, targetClusterSummaryInformers,
+	machineController := machinecontroller.NewController(masterKubeClient, cfg, targetClusterSummaryInformers,
 		platformInformerFactory.Platform().V1alpha1().Machines())
 
-	clusterController := cluster.NewController(kubeClient, cfg, platformInformerFactory.Platform().V1alpha1().Clusters())
+	clusterController := cluster.NewController(masterKubeClient, cfg, platformInformerFactory.Platform().V1alpha1().Clusters())
 
 	// notice that there is no need to run Start methods in a separate goroutine. (i.e. go kubeInformerFactory.Start(stopCh)
 	// Start method is non-blocking and runs all registered informers in a dedicated goroutine.

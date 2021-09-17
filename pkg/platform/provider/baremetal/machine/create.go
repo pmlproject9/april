@@ -247,18 +247,36 @@ func (p *Provider) EnsureKubeconfig(ctx context.Context, machine *platformv1.Mac
 //	return gpu.InstallNvidiaDriver(machineSSH, &gpu.NvidiaDriverOption{})
 //}
 
-//func (p *Provider) EnsureNvidiaContainerRuntime(ctx context.Context, machine *platformv1.Machine, cluster string) error {
-//	if !gpu.IsEnable(machine.Spec.Labels) {
-//		return nil
-//	}
-//
-//	machineSSH, err := machine.Spec.SSH()
-//	if err != nil {
-//		return err
-//	}
-//
-//	return gpu.InstallNvidiaContainerRuntime(machineSSH, &gpu.NvidiaContainerRuntimeOption{})
-//}
+func (p *Provider) EnsureNvidiaContainerRuntime(ctx context.Context, machine *platformv1.Machine, cluster *typesv1.Cluster) error {
+	if !gpu.IsEnable(machine.Spec.Labels) {
+		return nil
+	}
+
+	machineSSH, err := machine.Spec.SSH()
+	if err != nil {
+		return err
+	}
+
+	return gpu.InstallNvidiaContainerRuntime(machineSSH, &gpu.NvidiaContainerRuntimeOption{})
+}
+
+func (p *Provider) EnsureNvidiaDevicePlugin(ctx context.Context, machine *platformv1.Machine, cluster *typesv1.Cluster) error {
+	option := &gpu.NvidiaDevicePluginOption{
+		Image: "nvcr.io/nvidia/k8s-device-plugin:v0.9.0",
+	}
+
+	targetClientset, err := kubernetes.NewForConfig(cluster.TargetConfig)
+	if err != nil {
+		return err
+	}
+
+	err = gpu.InstallNvidiaDevicePlugin(ctx, targetClientset, option)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (p *Provider) EnsureDocker(ctx context.Context, machine *platformv1.Machine, cluster *typesv1.Cluster) error {
 	machineSSH, err := machine.Spec.SSH()

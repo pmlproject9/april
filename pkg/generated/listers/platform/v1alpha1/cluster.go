@@ -31,7 +31,7 @@ type ClusterLister interface {
 	// List lists all Clusters in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1alpha1.Cluster, err error)
-	// Get retrieves the TargetCluster from the index for a given name.
+	// Get retrieves the Cluster from the index for a given name.
 	// Objects returned here must be treated as read-only.
 	Get(name string) (*v1alpha1.Cluster, error)
 	ClusterListerExpansion
@@ -55,7 +55,7 @@ func (s *clusterLister) List(selector labels.Selector) (ret []*v1alpha1.Cluster,
 	return ret, err
 }
 
-// Get retrieves the TargetCluster from the index for a given name.
+// Get retrieves the Cluster from the index for a given name.
 func (s *clusterLister) Get(name string) (*v1alpha1.Cluster, error) {
 	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {

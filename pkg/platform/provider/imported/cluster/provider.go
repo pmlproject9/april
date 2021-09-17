@@ -44,7 +44,8 @@ func NewProvider() (*Provider, error) {
 	p.DelegateProvider = &clusterprovider.DelegateProvider{
 		ProviderName: "Imported",
 		CreateHandlers: []clusterprovider.Handler{
-			p.EnsureCreateVKChart,
+			p.EnsureClusterFittness,
+			p.EnsureVKInstalled,
 		},
 		DeleteHandlers: []clusterprovider.Handler{
 			p.EnsureCleanClusterMark,
