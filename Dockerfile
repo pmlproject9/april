@@ -2,5 +2,6 @@
 FROM alpine:3.7
 WORKDIR /
 COPY ./bin/manager .
-COPY ./provider .
+COPY provider/ /provider/
 ENTRYPOINT ["./manager"]
+
