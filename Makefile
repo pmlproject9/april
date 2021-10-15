@@ -16,7 +16,7 @@ endif
 
 # Build manager binary
 # 没有测试，不要用
-manager: generate fmt vet
+manager:
 	CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -a -installsuffix cgo -o bin/manager main.go
 
 # Generate manifests e.g. CRD, RBAC etc.

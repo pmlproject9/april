@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: april
+  namespace: pml-system
+  labels:
+    control-plane: pml-manager
+spec:
+  selector:
+    matchLabels:
+      control-plane: pml-manager
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        control-plane: pml-manager
+    spec:
+      containers:
+      - name: april
+        image: lmxia/april:v1
+        resources:
+          limits:
+            cpu: 100m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+            memory: 20Mi
+      serviceAccountName: admin
