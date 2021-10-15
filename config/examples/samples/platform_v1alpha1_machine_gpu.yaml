@@ -4,7 +4,7 @@ metadata:
   name: machine-sample
 spec:
   # Add fields here
-  ip: 192.168.1.90
+  ip: 192.168.1.239
   password: cG1sMTIzQEFzZA==
   port: 22
   type: Baremetal
